@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.tu.tictactoe.android.io";
+option java_outer_classname = "InputReaderProto";
+
+service InputReader {
+
+    rpc read() returns (Input) {}
+}
+
+/*
+message Coordinate {
+    int32 x = 1;
+    int32 y = 2;
+}
+*/
+
+enum MoveDirection {
+    UP = 1;
+    DOWN = 2;
+    LEFT = 3;
+    RIGHT = 4;
+    INVALID = 5;
+}
+
+enum InputType {
+    DIRECTIONAL = 1;
+    POSITIONAL = 2;
+    SET = 3;
+}
+
+message Input {
+    MoveDirection move_dir = 1;
+    bool set = 2;
+    Coordinate coord = 3;
+    required InputType type = 4;
+}

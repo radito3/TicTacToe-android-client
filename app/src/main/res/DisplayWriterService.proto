@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.tu.tictactoe.android.io";
+option java_outer_classname = "DisplayWriterProto";
+
+service DisplayWriter {
+
+    rpc write_grid() returns () {}
+
+    rpc clear_cell_at(Coordinate) returns () {}
+
+    rpc write_symbol(WriteIconMessage) returns () {}
+
+    rpc write_placeholder_for(WriteIconMessage) returns () {}
+
+    rpc write_stroke(WriteStrokeMessage) returns () {}
+
+    rpc write_msg(TextMessage) returns () {}
+
+    rpc write_temp_msg(TextMessage) returns () {}
+}
+
+enum StrokeDirection {
+    DOWN = 1;
+    ACROSS = 2;
+    DIAGONAL_LEFT = 3;
+    DIAGONAL_RIGHT = 4;
+}
+
+enum Symbol {
+    CIRCLE = 1;
+    CROSS = 2;
+}
+
+message WriteIconMessage {
+    required Symbol symbol = 1;
+    required Coordinate coord = 2;
+}
+
+message WriteStrokeMessage {
+    required Coordinate coord = 1;
+    required StrokeDirection stroke_dir = 2;
+}
+
+message TextMessage {
+    required string value = 1;
+}
