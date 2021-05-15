@@ -1,24 +1,28 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 option java_multiple_files = true;
 option java_package = "org.tu.tictactoe.android.io";
 option java_outer_classname = "DisplayWriterProto";
 
 service DisplayWriter {
 
-    rpc write_grid() returns () {}
+    rpc write_grid(google.protobuf.Empty) returns (google.protobuf.Empty) {}
 
-    rpc clear_cell_at(Coordinate) returns () {}
+    rpc clear_cell_at(Coordinate) returns (google.protobuf.Empty) {}
 
-    rpc write_symbol(WriteIconMessage) returns () {}
+    rpc write_symbol(WriteIconMessage) returns (google.protobuf.Empty) {}
 
-    rpc write_placeholder_for(WriteIconMessage) returns () {}
+    rpc write_placeholder_for(WriteIconMessage) returns (google.protobuf.Empty) {}
 
-    rpc write_stroke(WriteStrokeMessage) returns () {}
+    rpc write_stroke(WriteStrokeMessage) returns (google.protobuf.Empty) {}
 
-    rpc write_msg(TextMessage) returns () {}
+    rpc write_msg(TextMessage) returns (google.protobuf.Empty) {}
 
-    rpc write_temp_msg(TextMessage) returns () {}
+    rpc write_temp_msg(TextMessage) returns (google.protobuf.Empty) {}
+
+    rpc flash_placeholder(WriteIconMessage) returns (google.protobuf.Empty) {}
 }
 
 enum StrokeDirection {

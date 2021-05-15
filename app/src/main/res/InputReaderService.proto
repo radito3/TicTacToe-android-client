@@ -1,12 +1,14 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 option java_multiple_files = true;
 option java_package = "org.tu.tictactoe.android.io";
 option java_outer_classname = "InputReaderProto";
 
 service InputReader {
 
-    rpc read() returns (Input) {}
+    rpc read(google.protobuf.Empty) returns (Input) {}
 }
 
 /*
