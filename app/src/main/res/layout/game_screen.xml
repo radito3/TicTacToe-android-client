@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameScreen">
+
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        tools:ignore="MissingConstraints">
+<!--        android:background="@color/colorPrimary">-->
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="220dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_title_bar"/>
+
+    </Toolbar>
+
+    <FrameLayout
+        android:layout_width="349dp"
+        android:layout_height="479dp"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="126dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="170dp"
+            android:background="#D8D8D8" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="170dp"
+            android:background="#D8D8D8" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginStart="106dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="56dp"
+            android:background="#D8D8D8" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="106dp"
+            android:layout_marginBottom="56dp"
+            android:background="#D8D8D8" />
+
+        <!--ROW 1-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_top_start"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="70dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_top_middle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="70dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_top_end"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|end|top"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="12dp" />
+
+        <!--ROW 2-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_middle_start"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="12dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_middle_middle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_middle_end"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|end|center_vertical"
+            android:layout_marginEnd="12dp" />
+
+        <!--ROW 3-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_bottom_start"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="70dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_bottom_middle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="70dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/section_bottom_end"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal|end|bottom"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="70dp" />
+
+    </FrameLayout>
+
+    <!--    <TextView-->
+<!--        android:id="@+id/textview_second"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/button_second"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_second"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/previous"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/textview_second" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>
