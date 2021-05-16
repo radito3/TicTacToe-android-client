@@ -1,6 +1,10 @@
+import com.google.protobuf.gradle.*
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'com.google.protobuf' version "0.8.15"
 }
 
 android {
@@ -30,6 +34,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    sourceSets {
+        main {
+            proto {
+                srcDir 'src/main/res'
+            }
+        }
+    }
 }
 
 dependencies {
@@ -37,11 +49,67 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+//    protobuf(project(":app"))
+//
+//    api(kotlin("stdlib"))
+//    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+//
+    implementation 'io.grpc:grpc-protobuf:1.37.0'
+    implementation 'io.grpc:grpc-stub:1.36.0'
+    implementation 'io.grpc:grpc-kotlin-stub:1.1.0'
+    implementation 'com.google.protobuf:protobuf-java-util:3.17.0'
+
+    implementation 'io.grpc:grpc-okhttp:1.37.0'
+    implementation 'io.grpc:grpc-core:1.37.0'
+
+//    api("io.grpc:grpc-protobuf:1.37.0")
+//    api("io.grpc:grpc-kotlin-stub:1.37.0")
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.12.0"
+    }
+    plugins {
+        java {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.30.0"
+        }
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.30.0"
+        }
+        grpckt {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.1.0:jdk7@jar"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+//            task.builtins {
+//                remove javanano
+//                java {
+//                    option 'lite'
+//                }
+//            }
+
+            it.plugins {
+                grpc {
+                    // Options added to --grpc_out
+                    option 'lite'
+                }
+                grpckt {
+                    option 'lite'
+                }
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
 }
