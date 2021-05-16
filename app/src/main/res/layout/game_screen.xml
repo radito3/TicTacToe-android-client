@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameScreen">
-
+    tools:context=".GameActivity">
 
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        tools:ignore="MissingConstraints">
-<!--        android:background="@color/colorPrimary">-->
+        android:layout_height="72dp"
+        tools:ignore="MissingConstraints"
+        android:background="@color/design_default_color_primary">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="220dp"
@@ -25,6 +24,7 @@
     <FrameLayout
         android:layout_width="349dp"
         android:layout_height="479dp"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="126dp">
 
@@ -131,22 +131,4 @@
 
     </FrameLayout>
 
-    <!--    <TextView-->
-<!--        android:id="@+id/textview_second"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/button_second"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button_second"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/previous"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/textview_second" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

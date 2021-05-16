@@ -3,26 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/InitialScreen">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/InitialScreen"
         android:name="org.tu.tictactoe.android.InitialScreen"
-        android:label="@string/first_fragment_label"
+        android:label="@string/initial_screen_label"
         tools:layout="@layout/initial_screen">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/start_search"
+            app:destination="@id/LoadingScreen" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="org.tu.tictactoe.android.GameScreen"
-        android:label="@string/second_fragment_label"
+        android:id="@+id/LoadingScreen"
+        android:name="org.tu.tictactoe.android.LoadingScreen"
+        android:label="@string/loading_screen_label"
+        tools:layout="@layout/loading_screen">
+
+        <action
+            android:id="@+id/game_found"
+            app:destination="@id/GameScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/GameScreen"
+        android:name="org.tu.tictactoe.android.GameActivity"
+        android:label="@string/game_screen_label"
         tools:layout="@layout/game_screen">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/end_game"
+            app:destination="@id/InitialScreen" />
     </fragment>
 </navigation>
