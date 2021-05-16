@@ -26,10 +26,10 @@ service DisplayWriter {
 }
 
 enum StrokeDirection {
-    DOWN = 0;
-    ACROSS = 1;
-    DIAGONAL_LEFT = 2;
-    DIAGONAL_RIGHT = 3;
+    SD_DOWN = 0;
+    SD_ACROSS = 1;
+    SD_DIAGONAL_LEFT = 2;
+    SD_DIAGONAL_RIGHT = 3;
 }
 
 enum Symbol {

@@ -12,11 +12,11 @@ service InputReader {
 }
 
 enum MoveDirection {
-    UP = 0;
-    DOWN = 1;
-    LEFT = 2;
-    RIGHT = 3;
-    INVALID = 4;
+    MD_UP = 0;
+    MD_DOWN = 1;
+    MD_LEFT = 2;
+    MD_RIGHT = 3;
+    MD_INVALID = 4;
 }
 
 enum InputType {
@@ -29,5 +29,5 @@ message Input {
     MoveDirection move_dir = 1;
     bool set = 2;
     Coordinate coord = 3;
-    required InputType type = 4;
+    InputType type = 4;
 }
