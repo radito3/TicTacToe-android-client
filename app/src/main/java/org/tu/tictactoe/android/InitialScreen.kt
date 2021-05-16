@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 
-//maybe a different name?
 class InitialScreen : Fragment() {
 
     override fun onCreateView(
@@ -21,11 +21,10 @@ class InitialScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            //TODO before navigating to loading screen, check if both fields (name & symbol)
-            // are filled out
-            //TODO change button to "Search for Game"
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        view.findViewById<Button>(R.id.find_game_button).setOnClickListener {
+            //TODO before navigating to loading screen, check if name field is filled out
+            // and pass the data
+            findNavController().navigate(R.id.start_search)
         }
     }
 }
