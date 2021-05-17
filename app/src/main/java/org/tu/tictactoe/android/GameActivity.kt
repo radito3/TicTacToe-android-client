@@ -1,21 +1,21 @@
 package org.tu.tictactoe.android
 
 import android.os.Bundle
-//import androidx.fragment.app.Fragment
-//import android.view.LayoutInflater
 import android.view.View
-//import android.view.ViewGroup
-import android.view.animation.Animation
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.game_screen.*
 import org.tu.tictactoe.android.grpc.AndroidIOServer
-import org.tu.tictactoe.android.util.Animations
+import org.tu.tictactoe.android.grpc.DisplayWriterService
+import org.tu.tictactoe.android.grpc.InputReaderService
 import org.tu.tictactoe.android.util.GrpcServerProvider
+import org.tu.tictactoe.android.util.Presenter
 
 class GameActivity : AppCompatActivity() {
 
-    lateinit var server: AndroidIOServer
+    private lateinit var server: AndroidIOServer
+    private lateinit var displayWriter: DisplayWriterService
+    private val inputReader = InputReaderService()
+    private val presenter = Presenter(inputReader)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,114 +24,49 @@ class GameActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         server = GrpcServerProvider.getServer()
+        displayWriter = DisplayWriterService(findViewById(R.id.GameScreen))
+
+        section_top_start.setOnClickListener(onClick)
+        section_top_middle.setOnClickListener(onClick)
+        section_top_end.setOnClickListener(onClick)
+        section_middle_start.setOnClickListener(onClick)
+        section_middle_middle.setOnClickListener(onClick)
+        section_middle_end.setOnClickListener(onClick)
+        section_bottom_start.setOnClickListener(onClick)
+        section_bottom_middle.setOnClickListener(onClick)
+        section_bottom_end.setOnClickListener(onClick)
     }
 
-    enum class Seed {
-        EMPTY, CROSS, NOUGHT
-    }
-
-    class Cell(val row: Int, val col: Int) {
-        var content: Seed = Seed.EMPTY
-        fun clear() {
-            content = Seed.EMPTY
-        }
-    }
-
-    fun reloadBoard(cell: Cell?) {
-        val unwrapCell = cell ?: Cell(-1, -1)
-
-        val sectionView: View? = when {
-            unwrapCell.row == 0 && unwrapCell.col == 0 -> {
-                section_top_start.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_top_start
+    private val onClick = View.OnClickListener { view ->
+        when (view.id) {
+            section_top_start.id -> {
+                presenter.playerMove(0, 0)
             }
-
-            unwrapCell.row == 0 && unwrapCell.col == 1 -> {
-                section_top_middle.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_top_middle
+            section_top_middle.id -> {
+                presenter.playerMove(0, 1)
             }
-
-            unwrapCell.row == 0 && unwrapCell.col == 2 -> {
-                section_top_end.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_top_end
+            section_top_end.id -> {
+                presenter.playerMove(0, 2)
             }
-
-            unwrapCell.row == 1 && unwrapCell.col == 0 -> {
-                section_middle_start.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_middle_start
+            section_middle_start.id -> {
+                presenter.playerMove(1, 0)
             }
-
-            unwrapCell.row == 1 && unwrapCell.col == 1 -> {
-                section_middle_middle.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_middle_middle
+            section_middle_middle.id -> {
+                presenter.playerMove(1, 1)
             }
-
-            unwrapCell.row == 1 && unwrapCell.col == 2 -> {
-                section_middle_end.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_middle_end
+            section_middle_end.id -> {
+                presenter.playerMove(1, 2)
             }
-
-            unwrapCell.row == 2 && unwrapCell.col == 0 -> {
-                section_bottom_start.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_bottom_start
+            section_bottom_start.id -> {
+                presenter.playerMove(2, 0)
             }
-
-            unwrapCell.row == 2 && unwrapCell.col == 1 -> {
-                section_bottom_middle.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_bottom_middle
+            section_bottom_middle.id -> {
+                presenter.playerMove(2, 1)
             }
-
-            unwrapCell.row == 2 && unwrapCell.col == 2 -> {
-                section_bottom_end.setImageDrawable(when (unwrapCell.content) {
-                    Seed.CROSS -> ContextCompat.getDrawable(this, R.drawable.ic_cross)
-                    else -> ContextCompat.getDrawable(this, R.drawable.ic_nougth)
-                })
-                section_bottom_end
-            }
-
-            else -> {
-                return
+            section_bottom_end.id -> {
+                presenter.playerMove(2, 2)
             }
         }
-
-        sectionView?.isEnabled = false
-        sectionView?.animation = Animations.fadeIn(object : Animation.AnimationListener {
-            override fun onAnimationEnd(animation: Animation?) {
-                sectionView?.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-
-            }
-        })
     }
 
 }
