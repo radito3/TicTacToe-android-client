@@ -5,15 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.squareup.okhttp.*
 import kotlinx.coroutines.*
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class LoadingScreen : Fragment() {
 
     lateinit var client: OkHttpClient
-    lateinit var pollingCoroutine: Job
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +34,7 @@ class LoadingScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pollingCoroutine = GlobalScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             pollForGame()
         }
 
@@ -44,24 +45,33 @@ class LoadingScreen : Fragment() {
 
     private fun createRequest(): Request = Request.Builder()
                                                 .get()
-                                                .url("localhost/search/123")
-                                                .header("x-player-id", "abc")
+                                                .url("localhost/search/search_id")
+                                                .header("x-player-id", "player_id")
                                                 .build()
 
     private fun createBody(): RequestBody = RequestBody.create(
-        MediaType.parse("text/plain"), "abc")
+        MediaType.parse("text/plain"), "player_id")
 
-    private suspend fun pollForGame() {
-        withTimeoutOrNull(TimeUnit.MINUTES.toMillis(1)) {
-            while (true) {
-                val response = client.newCall(createRequest()).execute()
-                if (response.code() == 200) {
-                    findNavController().navigate(R.id.game_found)
-                    break
+    private suspend fun pollForGame() =
+            withTimeoutOrNull(TimeUnit.MINUTES.toMillis(1)) {
+                while (true) {
+                    client.newCall(createRequest()).enqueue(object : Callback {
+                        override fun onFailure(request: Request?, e: IOException?) {
+                            println(e)
+                        }
+
+                        override fun onResponse(response: Response?) {
+                            if (response?.code() == 200) {
+                                //FIXME this doesn't work
+                                findNavController().navigate(R.id.game_found)
+                                //TODO this Fragment's context can't be passed to this coroutine
+//                                val intent = Intent(context, GameActivity::class.java)
+//                                context?.startActivity(intent)
+                            }
+                        }
+                    })
+                    delay(TimeUnit.SECONDS.toMillis(3))
                 }
-                delay(TimeUnit.SECONDS.toMillis(3))
             }
-        }
-    }
 
 }

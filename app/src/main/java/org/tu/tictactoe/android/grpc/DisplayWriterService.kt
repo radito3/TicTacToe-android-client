@@ -1,20 +1,18 @@
 package org.tu.tictactoe.android.grpc
 
-import android.view.LayoutInflater
+import android.graphics.Color
 import android.view.View
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.widget.PopupWindow
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.protobuf.Empty
 import kotlinx.android.synthetic.main.game_screen.view.*
+import kotlinx.coroutines.delay
 import org.tu.tictactoe.android.R
 import org.tu.tictactoe.android.io.*
 import org.tu.tictactoe.android.model.Cell
-import org.tu.tictactoe.android.model.CellState
 import org.tu.tictactoe.android.util.Animations
 import java.util.concurrent.TimeUnit
 
@@ -22,12 +20,20 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
 
     private val tableMap: Map<Cell, AppCompatImageView> = mapOf(
             Pair(Cell(0, 0), view.section_top_start),
-            Pair(Cell(0, 1), view.section_top_middle)
-            //fill out rest of them
+            Pair(Cell(0, 1), view.section_top_middle),
+            Pair(Cell(0, 2), view.section_top_end),
+            Pair(Cell(1, 0), view.section_middle_start),
+            Pair(Cell(1, 1), view.section_middle_middle),
+            Pair(Cell(1, 1), view.section_middle_end),
+            Pair(Cell(2, 0), view.section_bottom_start),
+            Pair(Cell(2, 1), view.section_bottom_middle),
+            Pair(Cell(2, 2), view.section_bottom_end)
     )
 
     override suspend fun writeGrid(request: Empty): Empty {
-        //NO-OP
+        for (value in tableMap.values) {
+            value.setImageDrawable(null)
+        }
         return Empty.getDefaultInstance()
     }
 
@@ -41,8 +47,8 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
         val cell = Cell(request.coord.y, request.coord.x)
         val imageView = tableMap[cell]
 
-        imageView?.setImageDrawable(when (cell.state) {
-            CellState.CROSS -> ContextCompat.getDrawable(view.context, R.drawable.ic_cross)
+        imageView?.setImageDrawable(when (request.symbol) {
+            Symbol.CROSS -> ContextCompat.getDrawable(view.context, R.drawable.ic_cross)
             else -> ContextCompat.getDrawable(view.context, R.drawable.ic_circle)
         })
         imageView?.isEnabled = false
@@ -66,7 +72,7 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
     }
 
     override suspend fun writeStroke(request: WriteStrokeMessage): Empty {
-        //TODO draw a line using a Canvas
+        //TODO[optional] draw a line using a Canvas
         return Empty.getDefaultInstance()
     }
 
@@ -93,7 +99,11 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
     }
 
     override suspend fun flashPlaceholder(request: WriteIconMessage): Empty {
-        //TODO set the background color of the cell to a dim red shade
+        val cell = Cell(request.coord.y, request.coord.x)
+        val imageView = tableMap[cell]
+        imageView?.setBackgroundColor(Color.MAGENTA)
+        delay(500)
+        imageView?.setBackgroundColor(Color.WHITE)
         return Empty.getDefaultInstance()
     }
 }

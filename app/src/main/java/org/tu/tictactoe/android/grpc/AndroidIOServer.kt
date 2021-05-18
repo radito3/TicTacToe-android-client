@@ -1,17 +1,22 @@
 package org.tu.tictactoe.android.grpc
 
-import io.grpc.Server
+import android.view.View
 import io.grpc.ServerBuilder
 
-class AndroidIOServer(private val port: Int) {
-    private val server: Server = ServerBuilder.forPort(port)
-                            .addService(DisplayWriterService())
-                            .addService(InputReaderService())
-                            .build();
+class AndroidIOServer(private val port: Int, drawableView: View) {
+    private val inputReader = InputReaderService()
+    private val server = ServerBuilder.forPort(port)
+                                    .addService(DisplayWriterService(drawableView))
+                                    .addService(inputReader)
+                                    .build();
 
     fun start() {
         server.start();
         println("Server started, listening on $port")
+    }
+
+    suspend fun playerClick(row: Int, col: Int) {
+        inputReader.submitClickEvent(row, col)
     }
 
     fun stop() {

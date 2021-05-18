@@ -1,11 +1,10 @@
 package org.tu.tictactoe.android.grpc
 
 import com.google.protobuf.Empty
+import kotlinx.coroutines.channels.Channel
 import org.tu.tictactoe.android.io.*
 import org.tu.tictactoe.android.io.CoordinateOuterClass.Coordinate
 import org.tu.tictactoe.android.model.Cell
-import java.util.concurrent.ArrayBlockingQueue
-import java.util.concurrent.BlockingQueue
 
 class InputReaderService : InputReaderGrpcKt.InputReaderCoroutineImplBase()  {
 
@@ -14,21 +13,21 @@ class InputReaderService : InputReaderGrpcKt.InputReaderCoroutineImplBase()  {
         object SetClick: Click()
     }
 
-    private var clickQueue: BlockingQueue<Click> = ArrayBlockingQueue(1, true)
+    private var clickChan: Channel<Click> = Channel()
 
-    fun submitClickEvent(row: Int, col: Int) {
-        clickQueue.put(Click.CellClick(Cell(row, col)))
+    suspend fun submitClickEvent(row: Int, col: Int) {
+        clickChan.send(Click.CellClick(Cell(row, col)))
     }
 
     override suspend fun read(request: Empty): Input {
-        when (val click = clickQueue.take()) {
+        when (val click = clickChan.receive()) {
             is Click.SetClick -> return Input.newBuilder().apply {
                 set = true
                 type = InputType.SET
             }.build()
 
             is Click.CellClick -> {
-                clickQueue.put(Click.SetClick)
+                clickChan.send(Click.SetClick)
                 return Input.newBuilder().apply {
                     coord = Coordinate.newBuilder().apply {
                         x = click.cell.col
