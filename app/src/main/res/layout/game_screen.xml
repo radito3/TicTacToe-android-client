@@ -4,29 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".GameScreen">
 
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        tools:ignore="MissingConstraints"
-        android:background="@color/design_default_color_primary">
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="220dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_title_bar"/>
+            app:srcCompat="@drawable/ic_title_bar" />
 
     </Toolbar>
+
+    <TextView
+        android:id="@+id/player_turn_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="11dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+    </TextView>
 
     <FrameLayout
         android:layout_width="349dp"
         android:layout_height="479dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="126dp">
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="31dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_turn_text_view">
 
         <View
             android:layout_width="match_parent"

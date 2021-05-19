@@ -14,13 +14,12 @@ import java.util.concurrent.TimeUnit
 
 class LoadingScreen : Fragment() {
 
-    lateinit var client: OkHttpClient
+    private val client = OkHttpClient()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        client = OkHttpClient()
         client.protocols = listOf(Protocol.HTTP_1_1)
         //TODO handle server errors
         client.newCall(Request.Builder()
@@ -52,26 +51,24 @@ class LoadingScreen : Fragment() {
     private fun createBody(): RequestBody = RequestBody.create(
         MediaType.parse("text/plain"), "player_id")
 
-    private suspend fun pollForGame() =
-            withTimeoutOrNull(TimeUnit.MINUTES.toMillis(1)) {
-                while (true) {
-                    client.newCall(createRequest()).enqueue(object : Callback {
-                        override fun onFailure(request: Request?, e: IOException?) {
-                            println(e)
-                        }
+    private val responseCallback = object : Callback {
+        override fun onFailure(request: Request?, e: IOException?) {
+            println(e)
+        }
 
-                        override fun onResponse(response: Response?) {
-                            if (response?.code() == 200) {
-                                //FIXME this doesn't work
-                                findNavController().navigate(R.id.game_found)
-                                //TODO this Fragment's context can't be passed to this coroutine
-//                                val intent = Intent(context, GameActivity::class.java)
-//                                context?.startActivity(intent)
-                            }
-                        }
-                    })
-                    delay(TimeUnit.SECONDS.toMillis(3))
-                }
+        override fun onResponse(response: Response?) {
+            if (response?.code() == 200) {
+                findNavController().navigate(R.id.game_found)
             }
+        }
+    }
+
+    private suspend fun pollForGame() = withTimeoutOrNull(TimeUnit.MINUTES.toMillis(1)) {
+        while (true) {
+            client.newCall(createRequest())
+                    .enqueue(responseCallback)
+            delay(TimeUnit.SECONDS.toMillis(1))
+        }
+    }
 
 }

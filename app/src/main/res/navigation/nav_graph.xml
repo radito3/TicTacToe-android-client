@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/GameScreen"
-        android:name="org.tu.tictactoe.android.GameActivity"
+        android:name="org.tu.tictactoe.android.GameScreen"
         android:label="@string/game_screen_label"
         tools:layout="@layout/game_screen">
 

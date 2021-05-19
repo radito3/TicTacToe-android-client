@@ -13,7 +13,7 @@ class InputReaderService : InputReaderGrpcKt.InputReaderCoroutineImplBase()  {
         object SetClick: Click()
     }
 
-    private var clickChan: Channel<Click> = Channel()
+    private var clickChan: Channel<Click> = Channel(1)
 
     suspend fun submitClickEvent(row: Int, col: Int) {
         clickChan.send(Click.CellClick(Cell(row, col)))

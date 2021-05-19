@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".InitialScreen">
 
-<!--  here will be the main screen that includes <name> <icon> <search game>  -->
-
     <TextView
         android:id="@+id/name_field_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="287dp"
+        android:layout_height="64dp"
         android:text="@string/name_input"
+        android:textSize="40sp"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/find_game_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +20,8 @@
 
     <EditText
         android:id="@+id/name_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="146dp"
+        android:layout_height="52dp"
         android:hint="@string/name_hint"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@id/find_game_button"

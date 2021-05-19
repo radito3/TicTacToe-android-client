@@ -3,7 +3,6 @@ package org.tu.tictactoe.android.grpc
 import android.graphics.Color
 import android.view.View
 import android.view.animation.Animation
-import android.widget.PopupWindow
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
@@ -18,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.DisplayWriterCoroutineImplBase() {
 
-    private val tableMap: Map<Cell, AppCompatImageView> = mapOf(
+    private val boardViews: Map<Cell, AppCompatImageView> = mapOf(
             Pair(Cell(0, 0), view.section_top_start),
             Pair(Cell(0, 1), view.section_top_middle),
             Pair(Cell(0, 2), view.section_top_end),
@@ -31,7 +30,7 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
     )
 
     override suspend fun writeGrid(request: Empty): Empty {
-        for (value in tableMap.values) {
+        for (value in boardViews.values) {
             value.setImageDrawable(null)
         }
         return Empty.getDefaultInstance()
@@ -39,13 +38,15 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
 
     override suspend fun clearCellAt(request: CoordinateOuterClass.Coordinate): Empty {
         val cell = Cell(request.y, request.x)
-        tableMap[cell]?.setImageDrawable(null)
+        boardViews[cell]?.setImageDrawable(null)
         return Empty.getDefaultInstance()
     }
 
     override suspend fun writeSymbol(request: WriteIconMessage): Empty {
+        view.player_turn_text_view.text = "Your opponent's turn"
+
         val cell = Cell(request.coord.y, request.coord.x)
-        val imageView = tableMap[cell]
+        val imageView = boardViews[cell]
 
         imageView?.setImageDrawable(when (request.symbol) {
             Symbol.CROSS -> ContextCompat.getDrawable(view.context, R.drawable.ic_cross)
@@ -65,8 +66,8 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
     }
 
     override suspend fun writePlaceholderFor(request: WriteIconMessage): Empty {
-        //This should be a no-op BUT
-        // a long press event handler should be added to empty cells (and removed when they are
+        view.player_turn_text_view.text = "Your turn"
+        //a long press event handler should be added to empty cells (and removed when they are
         // filled) that shades the cell
         return Empty.getDefaultInstance()
     }
@@ -100,7 +101,7 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
 
     override suspend fun flashPlaceholder(request: WriteIconMessage): Empty {
         val cell = Cell(request.coord.y, request.coord.x)
-        val imageView = tableMap[cell]
+        val imageView = boardViews[cell]
         imageView?.setBackgroundColor(Color.MAGENTA)
         delay(500)
         imageView?.setBackgroundColor(Color.WHITE)
