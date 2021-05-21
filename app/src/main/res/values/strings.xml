@@ -9,6 +9,6 @@
     <string name="name_input">Write Name:</string>
     <string name="name_hint">Name</string>
     <string name="find_game">Find Game</string>
-
+    <string name="initial_turn">Your opponent's turn</string>
 
 </resources>
