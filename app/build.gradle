@@ -57,11 +57,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-//    protobuf(project(":app"))
-//
-//    api(kotlin("stdlib"))
-//    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
-//
     implementation 'io.grpc:grpc-protobuf:1.37.0'
     implementation 'io.grpc:grpc-stub:1.36.0'
     implementation 'io.grpc:grpc-kotlin-stub:1.1.0'
@@ -70,8 +65,6 @@ dependencies {
     implementation 'io.grpc:grpc-okhttp:1.37.0'
     implementation 'io.grpc:grpc-core:1.37.0'
 
-//    api("io.grpc:grpc-protobuf:1.37.0")
-//    api("io.grpc:grpc-kotlin-stub:1.37.0")
 }
 
 protobuf {
@@ -91,13 +84,6 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach {
-//            task.builtins {
-//                remove javanano
-//                java {
-//                    option 'lite'
-//                }
-//            }
-
             it.plugins {
                 grpc {
                     // Options added to --grpc_out
