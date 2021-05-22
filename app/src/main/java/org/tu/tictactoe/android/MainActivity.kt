@@ -3,7 +3,6 @@ package org.tu.tictactoe.android
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
-//import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,12 +16,6 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
-    }
-
-    //TODO pass data between fragments
-    fun test() {
-        val f = supportFragmentManager.findFragmentById(R.id.InitialScreen);
-//        f.sendMesage();
     }
 
 }

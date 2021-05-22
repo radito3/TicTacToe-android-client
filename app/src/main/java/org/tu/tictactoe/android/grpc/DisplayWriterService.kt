@@ -18,15 +18,15 @@ import java.util.concurrent.TimeUnit
 class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.DisplayWriterCoroutineImplBase() {
 
     private val boardViews: Map<Cell, AppCompatImageView> = mapOf(
-            Pair(Cell(0, 0), view.section_top_start),
-            Pair(Cell(0, 1), view.section_top_middle),
-            Pair(Cell(0, 2), view.section_top_end),
-            Pair(Cell(1, 0), view.section_middle_start),
-            Pair(Cell(1, 1), view.section_middle_middle),
-            Pair(Cell(1, 1), view.section_middle_end),
-            Pair(Cell(2, 0), view.section_bottom_start),
-            Pair(Cell(2, 1), view.section_bottom_middle),
-            Pair(Cell(2, 2), view.section_bottom_end)
+            Cell(0, 0) to view.section_top_start,
+            Cell(0, 1) to view.section_top_middle,
+            Cell(0, 2) to view.section_top_end,
+            Cell(1, 0) to view.section_middle_start,
+            Cell(1, 1) to view.section_middle_middle,
+            Cell(1, 1) to view.section_middle_end,
+            Cell(2, 0) to view.section_bottom_start,
+            Cell(2, 1) to view.section_bottom_middle,
+            Cell(2, 2) to view.section_bottom_end
     )
 
     override suspend fun writeGrid(request: Empty): Empty {
@@ -80,7 +80,7 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
     override suspend fun writeMsg(request: TextMessage): Empty {
         //temporary
         //TODO test whether this is easily dismissible by the user
-        Snackbar.make(view.rootView, request.value, Snackbar.LENGTH_LONG)
+        Snackbar.make(view, request.value, Snackbar.LENGTH_LONG)
                 .show()
         //TODO create a popup view
 //        val popupView = LayoutInflater.from(view.context).inflate(R.layout.support_simple_spinner_dropdown_item, null)
@@ -93,7 +93,7 @@ class DisplayWriterService(private val view: View) : DisplayWriterGrpcKt.Display
 
     override suspend fun writeTempMsg(request: TextMessage): Empty {
         //TODO change to a popup window
-        Snackbar.make(view.rootView, request.value,
+        Snackbar.make(view, request.value,
                     TimeUnit.SECONDS.toMillis(1).toInt())
                 .show()
         return Empty.getDefaultInstance()

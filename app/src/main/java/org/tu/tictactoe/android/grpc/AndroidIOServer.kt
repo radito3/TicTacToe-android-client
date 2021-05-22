@@ -8,7 +8,7 @@ class AndroidIOServer(private val port: Int, drawableView: View) {
     private val server = ServerBuilder.forPort(port)
                                     .addService(DisplayWriterService(drawableView))
                                     .addService(inputReader)
-                                    .build();
+                                    .build()
 
     fun start() {
         server.start();
